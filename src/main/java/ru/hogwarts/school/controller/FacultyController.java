@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Faculty;
+import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.FacultyService;
 
 import java.util.List;
@@ -20,6 +21,26 @@ public class FacultyController {
 
     public FacultyController(FacultyService facultyService) {
         this.facultyService = facultyService;
+    }
+
+    @GetMapping("/search")
+    @Operation(
+            summary = "Поиск факультетов по имени или цвету",
+            description = "Возвращает список факультетов, у которых имя или цвет содержат указанную строку (без учета регистра)")
+    public ResponseEntity<List<Faculty>> searchFaculties(
+            @Parameter(description = "Строка для поиска по имени или цвету") @RequestParam String query) {
+        List<Faculty> faculties = facultyService.searchFacultiesByNameOrColor(query);
+        return ResponseEntity.ok(faculties);
+    }
+
+    @GetMapping("/{id}/students")
+    @Operation(
+            summary = "Получить студентов факультета",
+            description = "Возвращает список студентов, привязанных к указанному факультету")
+    public ResponseEntity<List<Student>> getFacultyStudents(
+            @Parameter(description = "ID факультета") @PathVariable Long id) {
+        List<Student> students = facultyService.getFacultyStudents(id);
+        return ResponseEntity.ok(students);
     }
 
     @PostMapping

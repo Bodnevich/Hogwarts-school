@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.StudentService;
 
@@ -20,6 +21,32 @@ public class StudentController {
 
     public StudentController(StudentService studentService) {
         this.studentService = studentService;
+    }
+
+    @GetMapping("/age/between")
+    @Operation(
+            summary = "Получить студентов по возрасту",
+            description = "Возвращает список студентов, возраст между min и max")
+    public ResponseEntity<List<Student>> getStudentsByAgeBetween(@Parameter(description = "Минимальный возраст") @RequestParam int minAge,
+                                                                 @Parameter(description = "Максимальный возраст") @RequestParam int maxAge)
+    {
+        List<Student> students = studentService.getStudentsByAgeBetween(minAge, maxAge);
+        return ResponseEntity.ok(students);
+    }
+
+    @GetMapping("/{id}/faculty")
+    @Operation(
+            summary = "Получить факультет студента",
+            description = "Возвращает факультет, к которому привязан студент")
+    @ApiResponse(responseCode = "200", description = "Факультет найден")
+    @ApiResponse(responseCode = "404", description = "Студент или факультет не найден")
+    public ResponseEntity<Faculty> getStudentFaculty(
+            @Parameter(description = "ID студента") @PathVariable Long id) {
+        Faculty faculty = studentService.getStudentFaculty(id);
+        if (faculty == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(faculty);
     }
 
     @PostMapping
