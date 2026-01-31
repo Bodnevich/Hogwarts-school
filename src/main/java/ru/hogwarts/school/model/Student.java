@@ -12,6 +12,10 @@ public class Student {
     private String name;
     private int age;
 
+    @OneToOne(mappedBy = "student", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+
+    private Avatar avatar;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "faculty_id")
     private Faculty faculty;
@@ -22,6 +26,14 @@ public class Student {
         this.id = id;
         this.name = name;
         this.age = age;
+    }
+
+    public Avatar getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(Avatar avatar) {
+        this.avatar = avatar;
     }
 
     public Long getId() {
