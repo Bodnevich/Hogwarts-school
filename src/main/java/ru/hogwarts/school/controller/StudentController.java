@@ -35,13 +35,7 @@ public class StudentController {
     }
 
     @GetMapping("/{id}/faculty")
-    @Operation(
-            summary = "Получить факультет студента",
-            description = "Возвращает факультет, к которому привязан студент")
-    @ApiResponse(responseCode = "200", description = "Факультет найден")
-    @ApiResponse(responseCode = "404", description = "Студент или факультет не найден")
-    public ResponseEntity<Faculty> getStudentFaculty(
-            @Parameter(description = "ID студента") @PathVariable Long id) {
+    public ResponseEntity<Faculty> getStudentFaculty(@Parameter(description = "ID студента") @PathVariable Long id) {
         Faculty faculty = studentService.getStudentFaculty(id);
         if (faculty == null) {
             return ResponseEntity.notFound().build();
