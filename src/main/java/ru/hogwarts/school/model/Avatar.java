@@ -16,7 +16,7 @@ public class Avatar {
     private String mediaType;
 
     @Lob
-    @Column(columnDefinition = "LONGBLOB")
+    @Column(columnDefinition = "bytea")
     private byte[] data;
 
     @OneToOne(fetch = FetchType.LAZY)
