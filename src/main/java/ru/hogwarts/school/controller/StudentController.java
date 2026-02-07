@@ -23,6 +23,37 @@ public class StudentController {
         this.studentService = studentService;
     }
 
+    @GetMapping("/count")
+    @Operation(
+            summary = "Получить общее количество студентов",
+            description = "Возвращает общее количество студентов в школе"
+    )
+    public ResponseEntity<Integer> getTotalStudentsCount() {
+        Integer count = studentService.getTotalStudentsCount();
+        return ResponseEntity.ok(count);
+    }
+
+    @GetMapping("/average-age")
+    @Operation(
+            summary = "Получить средний возраст студентов",
+            description = "Возвращает средний возраст всех студентов школы"
+    )
+    public ResponseEntity<Double> getAverageAge() {
+        Double averageAge = studentService.getAverageAgeOfStudents();
+        return ResponseEntity.ok(averageAge);
+    }
+
+    @GetMapping("/last/{count}")
+    @Operation(
+            summary = "Получить последних студентов",
+            description = "Возвращает указанное количество последних добавленных студентов (с наибольщими ID)"
+    )
+    public ResponseEntity<List<Student>> getLastStudents(
+            @Parameter(description = "Количество последних студентов") @PathVariable int count) {
+        List<Student> students = studentService.getLastStudents(count);
+        return ResponseEntity.ok(students);
+    }
+
     @GetMapping("/age/between")
     @Operation(
             summary = "Получить студентов по возрасту",

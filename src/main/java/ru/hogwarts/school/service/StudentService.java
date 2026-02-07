@@ -20,6 +20,18 @@ public class StudentService {
         this.facultyRepository = facultyRepository;
     }
 
+    public Integer getTotalStudentsCount() {
+        return studentRepository.countAllStudents();
+    }
+
+    public Double getAverageAgeOfStudents() {
+        return studentRepository.findAverageAge();
+    }
+
+    public List<Student> getLastStudents(int count) {
+        return studentRepository.findLastStudents(count);
+    }
+
     public List<Student> getStudentsByAgeBetween(int minAge, int maxAge) {
         return studentRepository.findByAgeBetween(minAge, maxAge);
     }
@@ -96,6 +108,6 @@ public class StudentService {
         if (student != null && student.getFaculty() != null) {
             return student;
         }
-        throw new NotFoundException("Студент не имеет назначеного факультета.");
+        throw new NotFoundException("Студент не имеет назначенного факультета.");
     }
 }
