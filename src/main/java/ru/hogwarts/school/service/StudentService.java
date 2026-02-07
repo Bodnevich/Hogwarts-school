@@ -108,6 +108,6 @@ public class StudentService {
         if (student != null && student.getFaculty() != null) {
             return student;
         }
-        throw new NotFoundException("Студент не имеет назначенного факультета.");
+        throw new NotFoundException("Студент не имеет назначеного факультета.");
     }
 }
